@@ -1,6 +1,6 @@
 <template>
   <main class="min-h-screen flex justify-center text-center mx-auto">
-    Home page
+    About
   </main>
 </template>
 
