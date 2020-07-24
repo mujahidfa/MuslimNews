@@ -1,25 +1,25 @@
 <template>
   <main class="w-full lg:max-w-full">
     <div
-      class="text-left px-4 rounded-lg overflow-hidden border-2 border-gray-100 shadow-lg"
+      class="px-4 overflow-hidden text-left border-2 border-gray-100 rounded-lg shadow-lg"
     >
       <!-- TOPIC -->
       <a
-        class="pt-2 font-semibold text-gray-800 text-2xl md:text-4xl hover:underline"
+        class="pt-2 text-2xl font-semibold text-gray-800 md:text-4xl hover:underline"
         :href="article.url"
         >{{ article.title }}</a
       >
-      <h2 class="pb-4 text-sm md:text-base text-left">
+      <h2 class="pb-4 text-sm text-left md:text-base">
         {{ article.author }}, {{ publishTime(article.publishedAt) }}
       </h2>
       <div class="relative bg-red-500" style="padding-bottom: 50%;">
         <img
-          class="rounded-lg absolute h-full w-full object-cover"
+          class="absolute object-cover w-full h-full rounded-lg"
           :src="article.urlToImage"
           :alt="article.description"
         />
       </div>
-      <v-clamp class="text-gray-700 pt-2" autoresize :max-lines="2">{{
+      <v-clamp class="pt-2 text-gray-700" autoresize :max-lines="2">{{
         article.description
       }}</v-clamp>
       <!-- <h2 class="pt-2">

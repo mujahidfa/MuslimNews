@@ -1,20 +1,20 @@
 <template>
   <main
-    class="min-h-screen max-w-screen-xl justify-center text-center p-12 pt-0"
+    class="justify-center max-w-screen-xl min-h-screen p-12 pt-0 text-center"
   >
     <!-- First section -->
-    <!-- <h1 class="lg:text-left font-semibold text-2xl text-gray-800 mt-4">
+    <!-- <h1 class="mt-4 text-2xl font-semibold text-gray-800 lg:text-left">
       Trending categories
     </h1>
     <section
-      class="lg:text-left flex flex-row border-box overflow-x-auto text-gray-800"
+      class="flex flex-row overflow-x-auto text-gray-800 lg:text-left border-box"
     >
 
       <a
         v-for="category in category.slice(0, 8)"
         :key="category"
         :href="category.link"
-        class="inline-block md:hidden lg:hidden mx-2 mt-2 p-2 rounded-lg shadow-xl border-2 border-indigo-600 font-semibold text-xl"
+        class="inline-block p-2 mx-2 mt-2 text-xl font-semibold border-2 border-indigo-600 rounded-lg shadow-xl md:hidden lg:hidden"
       >
         {{ category.name }}
       </a>
@@ -23,7 +23,7 @@
         v-for="category in category.slice(0, 8)"
         :key="category"
         :href="category.link"
-        class="hidden md:inline-block mx-2 mt-2 p-2 rounded-lg border-2 border-indigo-600 font-medium lg:font-semibold lg:text-2xl"
+        class="hidden p-2 mx-2 mt-2 font-medium border-2 border-indigo-600 rounded-lg md:inline-block lg:font-semibold lg:text-2xl"
       >
         {{ category.name }}
       </a>
@@ -32,14 +32,14 @@
       <div class="lg:w-8/12">
         <!-- Featured news -->
         <h1
-          class="font-semibold text-2xl md:text-4xl lg:text-left mt-4 text-gray-800"
+          class="mt-4 text-2xl font-semibold text-gray-800 md:text-4xl lg:text-left"
         >
           FEATURED NEWS
         </h1>
         <div
-          class="pt-4"
           v-for="article in articles.slice(0, 1)"
           :key="article.title"
+          class="pt-4"
         >
           <BigCard :article="article" />
         </div>
@@ -47,7 +47,7 @@
       </div>
       <!-- Trending news -->
       <div class="lg:w-4/12 lg:ml-12">
-        <h1 class="mt-4 font-semibold text-2xl md:text-4xl">TRENDING TOPIC</h1>
+        <h1 class="mt-4 text-2xl font-semibold md:text-4xl">TRENDING TOPIC</h1>
         <div
           v-for="(article, index) in articles.slice(0, 4)"
           :key="article.title"
@@ -56,13 +56,13 @@
         </div>
       </div>
     </div>
-    <div class="inline-block text-center mt-12 max-w-full">
-      <h1 class="text-2xl md:text-4xl font-semibold">LATEST NEWS</h1>
+    <div class="inline-block max-w-full mt-12 text-center">
+      <h1 class="text-2xl font-semibold md:text-4xl">LATEST NEWS</h1>
       <div class="flex flex-row overflow-x-auto">
         <div
-          class="mt-4 mx-2 md:mx-4 lg:mx-8"
           v-for="latestArticle in latestArticle"
           :key="latestArticle.title"
+          class="mx-2 mt-4 md:mx-4 lg:mx-8"
         >
           <LatestNews :trending="latestArticle" />
         </div>
@@ -102,7 +102,7 @@ export default Vue.extend({
       latestArticle: latestArticle.articles,
     }
   },
-  data: function () {
+  data() {
     return {
       category: [
         { name: 'Canada', link: 'https://www.google.com' },

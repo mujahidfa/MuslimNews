@@ -2,19 +2,19 @@
   <main class="w-full lg:max-w-full">
     <div class="relative">
       <div
-        class="text-left px-2 rounded-lg overflow-hidden border-2 border-gray-100 shadow-lg"
+        class="px-2 overflow-hidden text-left border-2 border-gray-100 rounded-lg shadow-lg"
       >
         <div class="flex flex-row">
-          <div class="inline-block mx-2 m-0">
+          <div class="inline-block m-0 mx-2">
             <h1
-              class="text-left font-semibold text-4xl md:text-5xl text-gray-400"
+              class="text-4xl font-semibold text-left text-gray-400 md:text-5xl"
             >
               {{ number }}
             </h1>
           </div>
 
           <div class="w-1/4">
-            <div class="w-20 md:w-32 pt-4">
+            <div class="w-20 pt-4 md:w-32">
               <img
                 class="object-cover"
                 :src="trending.urlToImage"
@@ -22,9 +22,9 @@
               />
             </div>
           </div>
-          <div class="w-3/4 px-5 md:pl-2 pt-2 lg:pl-16">
+          <div class="w-3/4 px-5 pt-2 md:pl-2 lg:pl-16">
             <a
-              class="font-semibold text-base md:text-2xl lg:text-base hover:underline"
+              class="text-base font-semibold md:text-2xl lg:text-base hover:underline"
               :href="trending.url"
             >
               <v-clamp class="text-gray-700" autoresize :max-lines="4">{{
@@ -38,7 +38,7 @@
 
         <div class="flex justify-between py-2">
           <h2
-            class="pl-8 md:pl-10 inline-block text-sm text-indigo-600 md:text-base text-left"
+            class="inline-block pl-8 text-sm text-left text-indigo-600 md:pl-10 md:text-base"
           >
             {{ publishTime(trending.publishedAt) }}
           </h2>

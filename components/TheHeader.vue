@@ -1,6 +1,6 @@
 <template>
   <header
-    class="font-serif border-b-2 border-purple-200 sm:flex sm:justify-around sm:items-center sm:px-4 sm:py-3 flex flex-col"
+    class="flex flex-col font-serif border-b-2 border-purple-200 sm:flex sm:justify-around sm:items-center sm:px-4 sm:py-3"
     :class="{
       'shadow-xl': isOpen === true,
     }"
@@ -82,14 +82,14 @@
       </nav>
     </div>
 
-    <div class="w-full h-12 bg-indigo-800 px-0">
-      <section class="hidden md:block text-center justify-center">
+    <div class="w-full h-12 px-0 bg-indigo-800">
+      <section class="justify-center hidden text-center md:block">
         <div class="mt-2">
           <nuxt-link
             v-for="(keyword, index) in category"
             :key="index"
             :to="link(keyword.name)"
-            class="font-semibold mx-2 md:text-lg h-full text-white hover:underline hover:bg-white hover:text-indigo-600"
+            class="h-full mx-2 font-semibold text-white md:text-lg hover:underline hover:bg-white hover:text-indigo-600"
           >
             {{ keyword.name }}
           </nuxt-link>

@@ -1,19 +1,19 @@
 <template>
-  <main class="w-32 md:w-48 text-left">
+  <main class="w-32 text-left md:w-48">
     <div class="">
       <a :href="trending.url">
         <img
-          class="w-32 h-32 md:w-48 md:h-48 object-cover"
+          class="object-cover w-32 h-32 md:w-48 md:h-48"
           :src="trending.urlToImage"
           :alt="trending.description"
         />
       </a>
     </div>
-    <h3 class="text-left text-sm text-indigo-600">
+    <h3 class="text-sm text-left text-indigo-600">
       {{ publishTime(trending.publishedAt) }}
     </h3>
     <a
-      class="pt-2 font-semibold text-xs md:text-base hover:underline"
+      class="pt-2 text-xs font-semibold md:text-base hover:underline"
       :href="trending.url"
       ><v-clamp class="pt-2" autoresize :max-lines="2">{{
         trending.title
