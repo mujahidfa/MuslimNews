@@ -6,14 +6,14 @@
       'justify-center': totalResults !== 0,
     }"
   >
-    <p class="text-lg md:text-xl">You have picked the category:</p>
+    <p class="text-lg md:text-xl">You have picked the keyword:</p>
     <h1 class="text-4xl font-bold md:text-5xl">
       {{ this.$route.params.id }}
     </h1>
 
     <template v-if="totalResults === 0">
-      <p class="pt-6 pb-4">No articles found for this keyword.</p>
-      <nuxt-link to="/category" class="text-indigo-700 hover:text-green-600">
+      <p class="pt-6 pb-4">No news articles found for this keyword.</p>
+      <nuxt-link to="/search" class="text-indigo-700 hover:text-green-600">
         Search again
       </nuxt-link>
     </template>
@@ -21,7 +21,7 @@
     <template v-else>
       <div class="mb-8">
         <nuxt-link
-          to="/category"
+          to="/search"
           class="text-sm text-indigo-700 md:text-base hover:text-green-600"
         >
           Search again
@@ -74,7 +74,7 @@
       <section
         v-for="article in articles"
         :key="article.url"
-        class="w-full max-w-screen-lg p-3 mx-auto mb-4 border border-indigo-300 rounded-md"
+        class="w-full max-w-screen-lg p-3 mx-auto mb-4 bg-gray-100 border border-indigo-100 rounded-md shadow-lg hover:bg-gray-200"
       >
         <div class="flex justify-start space-x-3">
           <!-- <div class="w-auto"> -->
@@ -119,7 +119,14 @@
       </section>
 
       <Pagination
+        v-if="totalResults > 80"
         :page-count="5"
+        :value="currentPage"
+        :click-handler="handlePaginateClick"
+      />
+      <Pagination
+        v-else
+        :page-count="totalPages"
         :value="currentPage"
         :click-handler="handlePaginateClick"
       />

@@ -2,14 +2,14 @@
   <main
     class="flex flex-col max-w-lg min-h-screen p-8 pt-20 mx-auto text-center lg:p-4 lg:pt-20"
   >
-    <h1 class="pb-8 text-4xl font-bold lg:text-5xl">Search for a category:</h1>
+    <h1 class="pb-8 text-4xl font-bold lg:text-5xl">Search for a keyword:</h1>
     <input
       id="search"
       v-model="searchKeyword"
       type="text"
       name="search"
       class="p-2 mb-8 border border-indigo-700 rounded-md"
-      placeholder="Enter a category"
+      placeholder="Enter a keyword"
       @keyup.enter="onSearchButtonClick"
     />
 
@@ -37,13 +37,14 @@
     <section class="">
       <h2 class="font-semibold text-gray-900">Popular keywords:</h2>
       <div class="flex flex-wrap justify-center">
-        <div
-          v-for="(category, index) in categories"
+        <nuxt-link
+          v-for="(keyword, index) in popularKeywords"
           :key="index"
+          :to="link(keyword)"
           class="px-10 py-1 m-4 font-mono text-gray-800 bg-indigo-100 border border-indigo-500 rounded-full hover:bg-indigo-600 hover:text-gray-100"
         >
-          <nuxt-link :to="link(category)">{{ category }}</nuxt-link>
-        </div>
+          {{ keyword }}
+        </nuxt-link>
       </div>
     </section>
   </main>
@@ -57,7 +58,7 @@ export default Vue.extend({
     return {
       isLoading: false,
       searchKeyword: '',
-      categories: [
+      popularKeywords: [
         'Palestine',
         'Syria',
         'Islamophobia',
@@ -70,15 +71,15 @@ export default Vue.extend({
     }
   },
   methods: {
-    link(category: String): String {
-      return `/category/${category}`
+    link(keyword: String): String {
+      return `/search/${keyword}`
     },
     onSearchButtonClick() {
       if (this.searchKeyword) {
         this.isLoading = true
-        this.$router.push(`/category/${this.searchKeyword}`)
+        this.$router.push(`/search/${this.searchKeyword}`)
       } else {
-        alert('Enter a category/search term!')
+        alert('Enter a keyword/search term!')
       }
     },
   },
