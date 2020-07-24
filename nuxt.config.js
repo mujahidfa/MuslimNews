@@ -75,4 +75,7 @@ export default {
   generate: {
     fallback: true,
   },
+  privateRuntimeConfig: {
+    newsAPIKey: process.env.NEWSAPI_KEY,
+  },
 }

@@ -184,9 +184,9 @@ export default {
   components: {
     VClamp,
   },
-  async asyncData({ params, $axios }) {
+  async asyncData({ params, $axios, $config: { newsAPIKey } }) {
     const url =
-      'https://newsapi.org/v2/everything?apiKey=3213fec8c1894a8db251b15ae592f23d' +
+      'https://newsapi.org/v2/everything?apiKey='+ newsAPIKey +' +
       '&page=1&' +
       'q=(islam OR muslim) AND ' +
       params.id +

@@ -164,21 +164,21 @@ import VClamp from 'vue-clamp'
 
 export default {
   components: { VClamp },
-  async asyncData({ $axios }) {
+  async asyncData({ $axios, $config: { newsAPIKey } }) {
     const latestArticleUrl =
-      'https://newsapi.org/v2/everything?apiKey=3213fec8c1894a8db251b15ae592f23d' +
+      'https://newsapi.org/v2/everything?apiKey='+ newsAPIKey +' +
       '&page=1' +
       '&q=(islam OR muslim)' +
       '&sortBy=publishedAt'
 
     const trendingArticleUrl =
-      'https://newsapi.org/v2/everything?apiKey=3213fec8c1894a8db251b15ae592f23d' +
+      'https://newsapi.org/v2/everything?apiKey='+ newsAPIKey +' +
       '&page=1' +
       '&q=(islam OR muslim)' +
       '&sortBy=popularity'
 
     const relevantArticleUrl =
-      'https://newsapi.org/v2/everything?apiKey=3213fec8c1894a8db251b15ae592f23d' +
+      'https://newsapi.org/v2/everything?apiKey='+ newsAPIKey +' +
       '&page=1' +
       '&q=(islam OR muslim)' +
       '&sortBy=relevancy'
