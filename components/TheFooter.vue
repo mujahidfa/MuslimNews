@@ -1,7 +1,7 @@
 <template>
   <footer
     id="footer"
-    class="flex flex-col items-center py-6 text-sm text-gray-800 bg-purple-100 border-t border-gray-300"
+    class="flex flex-col items-center py-6 text-sm font-semibold text-gray-100 bg-indigo-600 border-t border-gray-300"
   >
     <div class="flex pb-2">
       <p class="pr-2">

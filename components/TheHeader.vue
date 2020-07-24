@@ -1,6 +1,9 @@
 <template>
   <header
-    class="bg-purple-200 sm:flex sm:justify-around sm:items-center sm:px-4 sm:py-3"
+    class="border-b-2 border-purple-100 sm:flex sm:justify-around sm:items-center sm:px-4 sm:py-3"
+    :class="{
+      'shadow-xl': isOpen === true,
+    }"
   >
     <!-- <div class="max-w-screen-lg"> -->
     <div class="flex items-center justify-between px-4 py-1 sm:p-0">
@@ -27,12 +30,14 @@
       <nuxt-link
         to="/"
         class="pl-4 font-serif text-3xl font-semibold text-indigo-600"
+        @click.native="isOpen = false"
       >
         MuslimNews
       </nuxt-link>
       <nuxt-link
-        to="/category"
+        to="/search"
         class="flex items-center p-3 -m-3 space-x-3 transition duration-150 ease-in-out rounded-md sm:hidden"
+        @click.native="isOpen = false"
       >
         <svg
           fill="currentColor"
@@ -47,27 +52,28 @@
         </svg>
       </nuxt-link>
     </div>
+
     <nav
       :class="isOpen ? 'block' : 'hidden'"
-      class="px-2 pt-2 pb-4 sm:flex sm:p-0"
+      class="px-2 pt-2 pb-4 space-y-1 text-center border-t-2 border-purple-100 sm:border-transparent sm:flex sm:p-0"
     >
       <nuxt-link
-        to="/category"
-        class="block px-2 py-1 font-semibold text-purple-800 rounded hover:bg-indigo-100"
+        to="/search"
+        class="block p-2 mt-1 font-semibold text-purple-800 rounded hover:bg-indigo-600 hover:text-white"
         @click.native="isOpen = !isOpen"
       >
         Search
       </nuxt-link>
       <nuxt-link
         to="/about"
-        class="block px-2 py-1 mt-1 font-semibold text-purple-800 rounded hover:bg-indigo-100 sm:mt-0 sm:ml-2"
+        class="block p-2 font-semibold text-purple-800 rounded hover:bg-indigo-600 hover:text-white sm:mt-0 sm:ml-2"
         @click.native="isOpen = !isOpen"
       >
         About
       </nuxt-link>
       <nuxt-link
         to="/team"
-        class="block px-2 py-1 mt-1 font-semibold text-purple-800 rounded hover:bg-indigo-100 sm:mt-0 sm:ml-2"
+        class="block p-2 font-semibold text-purple-800 rounded hover:bg-indigo-600 hover:text-white sm:mt-0 sm:ml-2"
         @click.native="isOpen = !isOpen"
       >
         Team
@@ -155,7 +161,7 @@
         </div>
         <nav class="hidden space-x-2 sm:flex">
           <nuxt-link
-            to="/category"
+            to="/search"
             class="px-4 py-1 text-base font-medium leading-6 text-white transition duration-150 ease-in-out rounded-md hover:bg-indigo-500 focus:outline-none focus:bg-indigo-500"
           >
             Search
@@ -197,7 +203,7 @@
               <div>
                 <nav class="grid row-gap-8 mr-8">
                   <nuxt-link
-                    to="/category"
+                    to="/search"
                     class="flex items-center p-3 -m-3 space-x-3 transition duration-150 ease-in-out rounded-md hover:bg-gray-200"
                     @click.native="isOpen = !isOpen"
                   >
