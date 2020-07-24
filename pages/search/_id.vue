@@ -71,27 +71,67 @@
         </button>
       </section>
 
+      <!-- <Pagination
+        v-if="totalResults > 80"
+        :page-count="5"
+        :value="currentPage"
+        :click-handler="handlePaginateClick"
+        class="pb-4"
+      />
+      <Pagination
+        v-else
+        :page-count="totalPages"
+        :value="currentPage"
+        :click-handler="handlePaginateClick"
+        class="pb-4"
+      /> -->
+
       <section
+        v-for="article in articles"
+        :key="article.url"
+        class="w-full max-w-screen-lg p-3 mx-auto mb-4 border-b border-indigo-200 hover:bg-gray-100"
+      >
+        <a
+          class="flex justify-start space-x-4 font-semibold text-gray-800"
+          :href="article.url"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          <div
+            v-lazy:background-image="article.urlToImage"
+            class="bg-center bg-no-repeat bg-cover image"
+          />
+          <div>
+            <p class="text-xs text-left text-indigo-600">
+              {{ publishTime(article.publishedAt) }} / {{ article.source.name }}
+            </p>
+            <v-clamp
+              autoresize
+              :max-lines="3"
+              class="leading-5 text-left hover:underline hover:text-indigo-700"
+            >
+              {{ article.title }}
+            </v-clamp>
+            <v-clamp
+              autoresize
+              :max-lines="2"
+              class="text-sm leading-snug text-left text-gray-600 break-words"
+            >
+              {{ article.description }}
+            </v-clamp>
+          </div>
+        </a>
+      </section>
+      <!-- <section
         v-for="article in articles"
         :key="article.url"
         class="w-full max-w-screen-lg p-3 mx-auto mb-4 bg-gray-100 border border-indigo-100 rounded-md shadow-lg hover:bg-gray-200"
       >
         <div class="flex justify-start space-x-3">
-          <!-- <div class="w-auto"> -->
-          <!-- <img
-          class="w-24 h-20 rounded-md"
-          :src="article.urlToImage"
-          alt="Article image."
-        /> -->
           <div
             v-lazy:background-image="article.urlToImage"
             class="bg-center bg-no-repeat bg-cover image"
           />
-          <!-- <img
-          v-lazy="article.urlToImage"
-          class="bg-center bg-no-repeat bg-cover image"
-        /> -->
-          <!-- </div> -->
 
           <div class="flex-grow space-y-2">
             <h1 class="leading-5 text-left">
@@ -116,7 +156,7 @@
             </p>
           </div>
         </div>
-      </section>
+      </section> -->
 
       <Pagination
         v-if="totalResults > 80"
