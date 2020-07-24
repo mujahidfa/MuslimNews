@@ -1,13 +1,15 @@
 <template>
-  <main class="min-h-screen max-w-screen-xl justify-center text-center p-12">
+  <main
+    class="min-h-screen max-w-screen-xl justify-center text-center p-12 pt-0"
+  >
     <!-- First section -->
-    <h1 class="lg:text-left font-semibold text-2xl text-gray-800">
+    <!-- <h1 class="lg:text-left font-semibold text-2xl text-gray-800 mt-4">
       Trending categories
     </h1>
     <section
       class="lg:text-left flex flex-row border-box overflow-x-auto text-gray-800"
     >
-      <!-- Categories for sm-->
+
       <a
         v-for="category in category.slice(0, 8)"
         :key="category"
@@ -16,7 +18,7 @@
       >
         {{ category.name }}
       </a>
-      <!-- Categories for md-->
+
       <a
         v-for="category in category.slice(0, 8)"
         :key="category"
@@ -25,7 +27,7 @@
       >
         {{ category.name }}
       </a>
-    </section>
+    </section> -->
     <div class="lg:flex lg:flex-row">
       <div class="lg:w-8/12">
         <!-- Featured news -->
@@ -34,7 +36,11 @@
         >
           FEATURED NEWS
         </h1>
-        <div class="pt-4" v-for="article in article" :key="article.title">
+        <div
+          class="pt-4"
+          v-for="article in articles.slice(0, 1)"
+          :key="article.title"
+        >
           <BigCard :article="article" />
         </div>
         <!-- Categories for sm-->
@@ -42,10 +48,11 @@
       <!-- Trending news -->
       <div class="lg:w-4/12 lg:ml-12">
         <h1 class="mt-4 font-semibold text-2xl md:text-4xl">TRENDING TOPIC</h1>
-        <div v-for="trending in trending" :key="trending.title">
-          <div v-for="number in trending.number" :key="trending.number">
-            <SmallCard class="pt-4" :trending="trending" :number="number" />
-          </div>
+        <div
+          v-for="(article, index) in articles.slice(0, 4)"
+          :key="article.title"
+        >
+          <SmallCard class="pt-4" :trending="article" :number="index + 1" />
         </div>
       </div>
     </div>
@@ -54,10 +61,10 @@
       <div class="flex flex-row overflow-x-auto">
         <div
           class="mt-4 mx-2 md:mx-4 lg:mx-8"
-          v-for="trending in trending.slice(0, 8)"
-          :key="trending.title"
+          v-for="latestArticle in latestArticle"
+          :key="latestArticle.title"
         >
-          <LatestNews :trending="trending" />
+          <LatestNews :trending="latestArticle" />
         </div>
       </div>
     </div>
@@ -72,157 +79,31 @@ import LatestNews from '~/components/LatestNews.vue'
 
 export default Vue.extend({
   components: { BigCard, SmallCard, LatestNews },
+  async asyncData({ params, $axios }) {
+    const popularityURL =
+      'https://newsapi.org/v2/everything?apiKey=3213fec8c1894a8db251b15ae592f23d' +
+      '&page=1&' +
+      'q=(islam OR muslim) ' +
+      '&sortBy=popularity'
+
+    const latestArticleURL =
+      'https://newsapi.org/v2/everything?apiKey=3213fec8c1894a8db251b15ae592f23d' +
+      '&page=1&' +
+      'q=(islam OR muslim) ' +
+      '&sortBy=publishedAt'
+
+    const { status, totalResults, articles } = await $axios.$get(popularityURL)
+    const latestArticle = await $axios.$get(latestArticleURL)
+
+    return {
+      status,
+      totalResults,
+      articles,
+      latestArticle: latestArticle.articles,
+    }
+  },
   data: function () {
     return {
-      article: [
-        {
-          source: {
-            id: 'reuters',
-            name: 'Reuters',
-          },
-          author: 'Rozanna Latiff',
-          title:
-            "Malaysia can't take any more Rohingya refugees, PM says - Reuters",
-          description:
-            'Malaysia can no longer take in Rohingya adadsa asdsa dasd adsadasd dasdas dasda das  Muslim refugees from Myanmar, Prime Minister Muhyiddin Yassin said on Friday, citing a struggling economy and dwindling resources as a result of the novel coronavirus pandemic.',
-          url:
-            'https://www.reuters.com/article/us-myanmar-rohingya-malaysia-idUSKBN23X19Y',
-          urlToImage:
-            'https://s2.reutersmedia.net/resources/r/?m=02&d=20200626&t=2&i=1523719120&w=1200&r=LYNXMPEG5P0R3',
-          publishedAt: '2020-06-26T09:41:00Z',
-          content:
-            'KUALA LUMPUR (Reuters) - Malaysia can no longer take in Rohingya Muslim refugees from Myanmar, Prime Minister Muhyiddin Yassin said on Friday, citing a struggling economy and dwindling resources as a… [+2243 chars]',
-        },
-      ],
-      trending: [
-        {
-          number: 4,
-          source: {
-            id: 'reuters',
-            name: 'Reuters',
-          },
-          author: 'Rozanna Latiff',
-          title:
-            "Malaysia can't take any more Rohingya refugees, PM says - Reuters",
-          description:
-            'Malaysia can no longer take in Rohingya adadsa asdsa dasd adsadasd dasdas dasda das  Muslim refugees from Myanmar, Prime Minister Muhyiddin Yassin said on Friday, citing a struggling economy and dwindling resources as a result of the novel coronavirus pandemic.',
-          url:
-            'https://www.reuters.com/article/us-myanmar-rohingya-malaysia-idUSKBN23X19Y',
-          urlToImage:
-            'https://s2.reutersmedia.net/resources/r/?m=02&d=20200626&t=2&i=1523719120&w=1200&r=LYNXMPEG5P0R3',
-          publishedAt: '2020-06-26T09:41:00Z',
-          content:
-            'KUALA LUMPUR (Reuters) - Malaysia can no longer take in Rohingya Muslim refugees from Myanmar, Prime Minister Muhyiddin Yassin said on Friday, citing a struggling economy and dwindling resources as a… [+2243 chars]',
-        },
-        {
-          source: {
-            id: 'reuters',
-            name: 'Reuters',
-          },
-          author: 'Rozanna Latiff',
-          title:
-            "Malaysia can't take any more Rohingya refugees, PM says - Reuters",
-          description:
-            'Malaysia can no longer take in Rohingya adadsa asdsa dasd adsadasd dasdas dasda das  Muslim refugees from Myanmar, Prime Minister Muhyiddin Yassin said on Friday, citing a struggling economy and dwindling resources as a result of the novel coronavirus pandemic.',
-          url:
-            'https://www.reuters.com/article/us-myanmar-rohingya-malaysia-idUSKBN23X19Y',
-          urlToImage:
-            'https://s2.reutersmedia.net/resources/r/?m=02&d=20200626&t=2&i=1523719120&w=1200&r=LYNXMPEG5P0R3',
-          publishedAt: '2020-06-26T09:41:00Z',
-          content:
-            'KUALA LUMPUR (Reuters) - Malaysia can no longer take in Rohingya Muslim refugees from Myanmar, Prime Minister Muhyiddin Yassin said on Friday, citing a struggling economy and dwindling resources as a… [+2243 chars]',
-        },
-        {
-          source: {
-            id: 'reuters',
-            name: 'Reuters',
-          },
-          author: 'Rozanna Latiff',
-          title:
-            "Malaysia can't take any more Rohingya refugees, PM says - Reuters",
-          description:
-            'Malaysia can no longer take in Rohingya adadsa asdsa dasd adsadasd dasdas dasda das  Muslim refugees from Myanmar, Prime Minister Muhyiddin Yassin said on Friday, citing a struggling economy and dwindling resources as a result of the novel coronavirus pandemic.',
-          url:
-            'https://www.reuters.com/article/us-myanmar-rohingya-malaysia-idUSKBN23X19Y',
-          urlToImage:
-            'https://s2.reutersmedia.net/resources/r/?m=02&d=20200626&t=2&i=1523719120&w=1200&r=LYNXMPEG5P0R3',
-          publishedAt: '2020-06-26T09:41:00Z',
-          content:
-            'KUALA LUMPUR (Reuters) - Malaysia can no longer take in Rohingya Muslim refugees from Myanmar, Prime Minister Muhyiddin Yassin said on Friday, citing a struggling economy and dwindling resources as a… [+2243 chars]',
-        },
-        {
-          source: {
-            id: 'reuters',
-            name: 'Reuters',
-          },
-          author: 'Rozanna Latiff',
-          title:
-            "Malaysia can't take any more Rohingya refugees, PM says - Reuters",
-          description:
-            'Malaysia can no longer take in Rohingya adadsa asdsa dasd adsadasd dasdas dasda das  Muslim refugees from Myanmar, Prime Minister Muhyiddin Yassin said on Friday, citing a struggling economy and dwindling resources as a result of the novel coronavirus pandemic.',
-          url:
-            'https://www.reuters.com/article/us-myanmar-rohingya-malaysia-idUSKBN23X19Y',
-          urlToImage:
-            'https://s2.reutersmedia.net/resources/r/?m=02&d=20200626&t=2&i=1523719120&w=1200&r=LYNXMPEG5P0R3',
-          publishedAt: '2020-06-26T09:41:00Z',
-          content:
-            'KUALA LUMPUR (Reuters) - Malaysia can no longer take in Rohingya Muslim refugees from Myanmar, Prime Minister Muhyiddin Yassin said on Friday, citing a struggling economy and dwindling resources as a… [+2243 chars]',
-        },
-        {
-          source: {
-            id: 'reuters',
-            name: 'Reuters',
-          },
-          author: 'Rozanna Latiff',
-          title:
-            "Malaysia can't take any more Rohingya refugees, PM says - Reuters",
-          description:
-            'Malaysia can no longer take in Rohingya adadsa asdsa dasd adsadasd dasdas dasda das  Muslim refugees from Myanmar, Prime Minister Muhyiddin Yassin said on Friday, citing a struggling economy and dwindling resources as a result of the novel coronavirus pandemic.',
-          url:
-            'https://www.reuters.com/article/us-myanmar-rohingya-malaysia-idUSKBN23X19Y',
-          urlToImage:
-            'https://s2.reutersmedia.net/resources/r/?m=02&d=20200626&t=2&i=1523719120&w=1200&r=LYNXMPEG5P0R3',
-          publishedAt: '2020-06-26T09:41:00Z',
-          content:
-            'KUALA LUMPUR (Reuters) - Malaysia can no longer take in Rohingya Muslim refugees from Myanmar, Prime Minister Muhyiddin Yassin said on Friday, citing a struggling economy and dwindling resources as a… [+2243 chars]',
-        },
-        {
-          source: {
-            id: 'reuters',
-            name: 'Reuters',
-          },
-          author: 'Rozanna Latiff',
-          title:
-            "Malaysia can't take any more Rohingya refugees, PM says - Reuters",
-          description:
-            'Malaysia can no longer take in Rohingya adadsa asdsa dasd adsadasd dasdas dasda das  Muslim refugees from Myanmar, Prime Minister Muhyiddin Yassin said on Friday, citing a struggling economy and dwindling resources as a result of the novel coronavirus pandemic.',
-          url:
-            'https://www.reuters.com/article/us-myanmar-rohingya-malaysia-idUSKBN23X19Y',
-          urlToImage:
-            'https://s2.reutersmedia.net/resources/r/?m=02&d=20200626&t=2&i=1523719120&w=1200&r=LYNXMPEG5P0R3',
-          publishedAt: '2020-06-26T09:41:00Z',
-          content:
-            'KUALA LUMPUR (Reuters) - Malaysia can no longer take in Rohingya Muslim refugees from Myanmar, Prime Minister Muhyiddin Yassin said on Friday, citing a struggling economy and dwindling resources as a… [+2243 chars]',
-        },
-        {
-          source: {
-            id: 'reuters',
-            name: 'Reuters',
-          },
-          author: 'Rozanna Latiff',
-          title:
-            "Malaysia can't take any more Rohingya refugees, PM says - Reuters",
-          description:
-            'Malaysia can no longer take in Rohingya adadsa asdsa dasd adsadasd dasdas dasda das  Muslim refugees from Myanmar, Prime Minister Muhyiddin Yassin said on Friday, citing a struggling economy and dwindling resources as a result of the novel coronavirus pandemic.',
-          url:
-            'https://www.reuters.com/article/us-myanmar-rohingya-malaysia-idUSKBN23X19Y',
-          urlToImage:
-            'https://s2.reutersmedia.net/resources/r/?m=02&d=20200626&t=2&i=1523719120&w=1200&r=LYNXMPEG5P0R3',
-          publishedAt: '2020-06-26T09:41:00Z',
-          content:
-            'KUALA LUMPUR (Reuters) - Malaysia can no longer take in Rohingya Muslim refugees from Myanmar, Prime Minister Muhyiddin Yassin said on Friday, citing a struggling economy and dwindling resources as a… [+2243 chars]',
-        },
-      ],
       category: [
         { name: 'Canada', link: 'https://www.google.com' },
         { name: 'Finance', link: 'https://www.google.com' },
@@ -231,6 +112,7 @@ export default Vue.extend({
       ],
     }
   },
+  methods: {},
 })
 </script>
 
