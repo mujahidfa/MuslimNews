@@ -197,23 +197,26 @@ export default {
   components: {
     VClamp,
   },
-  async asyncData({ params, $axios }) {
+  async asyncData({ params, $axios, $config: { newsAPIKey } }) {
     const latestArticleUrl =
-      'https://newsapi.org/v2/everything?apiKey=3213fec8c1894a8db251b15ae592f23d' +
+      'https://newsapi.org/v2/everything?apiKey=' +
+      newsAPIKey +
       '&page=1&' +
       'q=' +
       params.id +
       '&sortBy=publishedAt'
 
     const trendingArticleUrl =
-      'https://newsapi.org/v2/everything?apiKey=3213fec8c1894a8db251b15ae592f23d' +
+      'https://newsapi.org/v2/everything?apiKey=' +
+      newsAPIKey +
       '&page=1&' +
       'q=' +
       params.id +
       '&sortBy=popularity'
 
     const relevantArticleUrl =
-      'https://newsapi.org/v2/everything?apiKey=3213fec8c1894a8db251b15ae592f23d' +
+      'https://newsapi.org/v2/everything?apiKey=' +
+      newsAPIKey +
       '&page=1&' +
       'q=' +
       params.id +
