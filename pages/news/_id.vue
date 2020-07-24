@@ -13,7 +13,7 @@
     </div>
 
     <div class="lg:flex lg:flex-row lg:space-x-3">
-      <!-- 3 main latest news -->
+      <!-- 4 main relevant news -->
       <div class="lg:w-5/12">
         <section
           v-for="article in mainArticles"
@@ -37,7 +37,7 @@
               <v-clamp
                 autoresize
                 :max-lines="3"
-                class="font-bold leading-5 text-left text-gray-800 md:text-2xl hover:underline hover:text-indigo-700"
+                class="font-bold leading-5 text-left text-gray-800 md:text-2xl md:p-1 hover:underline hover:text-indigo-700"
               >
                 {{ article.title }}
               </v-clamp>
@@ -47,10 +47,10 @@
       </div>
 
       <div class="md:flex md:flex-row md:space-x-4 lg:w-7/12 lg:space-x-3">
-        <!-- latest news -->
+        <!-- relevant news -->
         <div class="md:w-7/12 lg:w-5/12">
           <section
-            v-for="article in next7LatestArticles"
+            v-for="article in next7RelevantArticles"
             :key="article.url"
             class="w-full max-w-screen-lg p-3 mx-auto mb-4 border-b border-indigo-200 hover:bg-gray-100"
           >
@@ -132,12 +132,12 @@
       </div>
     </div>
 
-    <!-- Start more news // "relevant" news-->
+    <!-- Start latest news -->
     <div class="pb-1 lg:hidden">
       <h1
         class="font-mono font-semibold tracking-wider text-left text-indigo-700 uppercase"
       >
-        MORE NEWS
+        LATEST NEWS
       </h1>
       <div class="self-center w-full border border-gray-400" />
     </div>
@@ -146,13 +146,13 @@
       <h1
         class="px-10 py-1 font-mono text-base font-semibold tracking-widest text-gray-100 uppercase bg-indigo-700"
       >
-        MORE NEWS
+        LATEST NEWS
       </h1>
       <div class="self-center w-full border border-gray-400" />
     </div>
     <!-- more news -->
     <section
-      v-for="article in relevantArticles"
+      v-for="article in latestArticles"
       :key="article.url"
       class="w-full max-w-screen-lg p-3 mx-auto mb-4 border-b border-indigo-200 hover:bg-gray-100"
     >
@@ -226,10 +226,16 @@ export default {
     const trendingArticles = await $axios.$get(trendingArticleUrl)
     const relevantArticles = await $axios.$get(relevantArticleUrl)
 
+    const sortedRelevantArticles = relevantArticles.articles
+
+    sortedRelevantArticles.sort((a, b) =>
+      b.publishedAt.localeCompare(a.publishedAt)
+    )
+
     return {
       latestArticles: latestArticles.articles,
       trendingArticles: trendingArticles.articles,
-      relevantArticles: relevantArticles.articles,
+      relevantArticles: sortedRelevantArticles,
     }
   },
   data() {
@@ -243,10 +249,11 @@ export default {
       return Math.ceil(this.totalResults / 20)
     },
     mainArticles() {
-      return this.latestArticles.slice(0, 3)
+      // relevantArticles
+      return this.relevantArticles.slice(0, 4)
     },
-    next7LatestArticles() {
-      return this.latestArticles.slice(3, 11)
+    next7RelevantArticles() {
+      return this.relevantArticles.slice(4, 14)
     },
     top10TrendingArticles() {
       return this.trendingArticles.slice(0, 10)
