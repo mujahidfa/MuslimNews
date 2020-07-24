@@ -31,11 +31,10 @@
   </main>
 </template>
 
-<script lang="ts">
-import Vue from 'vue'
+<script>
 import VClamp from 'vue-clamp'
 
-export default Vue.extend({
+export default {
   components: {
     VClamp,
   },
@@ -46,9 +45,9 @@ export default Vue.extend({
     },
   },
   methods: {
-    publishTime(time: string) {
+    publishTime(time) {
       return this.$dayjs().from(this.$dayjs(time))
     },
   },
-})
+}
 </script>

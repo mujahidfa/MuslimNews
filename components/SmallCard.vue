@@ -59,11 +59,10 @@
   </main>
 </template>
 
-<script lang="ts">
-import Vue from 'vue'
+<script>
 import VClamp from 'vue-clamp'
 
-export default Vue.extend({
+export default {
   components: {
     VClamp,
   },
@@ -72,12 +71,15 @@ export default Vue.extend({
       type: Object,
       required: true,
     },
-    number: Number,
+    number: {
+      type: Number,
+      required: true,
+    },
   },
   methods: {
-    publishTime(time: string) {
+    publishTime(time) {
       return this.$dayjs().from(this.$dayjs(time))
     },
   },
-})
+}
 </script>
