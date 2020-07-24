@@ -72,4 +72,7 @@ export default {
   build: {
     transpile: ['vue-clamp', 'resize-detector'],
   },
+  generate: {
+    fallback: true,
+  },
 }
