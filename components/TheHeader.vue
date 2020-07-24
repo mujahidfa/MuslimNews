@@ -1,6 +1,108 @@
 <template>
-  <header class="relative bg-indigo-400">
-    <div class="max-w-screen-lg px-4 mx-auto sm:px-6">
+  <header
+    class="font-serif border-b-2 border-purple-200 sm:flex sm:justify-around sm:items-center sm:px-4 sm:py-3"
+    :class="{
+      'shadow-xl': isOpen === true,
+    }"
+  >
+    <!-- <div class="max-w-screen-lg"> -->
+    <div class="flex items-center justify-between px-4 py-1 sm:p-0">
+      <div class="sm:hidden">
+        <button
+          type="button"
+          class="block text-purple-500 hover:text-purple-800 focus:text-purple-800 focus:outline-none"
+          @click="isOpen = !isOpen"
+        >
+          <svg class="w-6 h-6 fill-current" viewBox="0 0 24 24">
+            <path
+              v-if="isOpen"
+              fill-rule="evenodd"
+              d="M18.278 16.864a1 1 0 0 1-1.414 1.414l-4.829-4.828-4.828 4.828a1 1 0 0 1-1.414-1.414l4.828-4.829-4.828-4.828a1 1 0 0 1 1.414-1.414l4.829 4.828 4.828-4.828a1 1 0 1 1 1.414 1.414l-4.828 4.829 4.828 4.828z"
+            />
+            <path
+              v-if="!isOpen"
+              fill-rule="evenodd"
+              d="M4 5h16a1 1 0 0 1 0 2H4a1 1 0 1 1 0-2zm0 6h16a1 1 0 0 1 0 2H4a1 1 0 0 1 0-2zm0 6h16a1 1 0 0 1 0 2H4a1 1 0 0 1 0-2z"
+            />
+          </svg>
+        </button>
+      </div>
+      <nuxt-link
+        to="/"
+        class="pl-4 font-serif text-3xl font-semibold text-indigo-600"
+        @click.native="isOpen = false"
+      >
+        MuslimNews
+      </nuxt-link>
+      <nuxt-link
+        to="/search"
+        class="flex items-center p-3 -m-3 space-x-3 transition duration-150 ease-in-out rounded-md sm:hidden"
+        @click.native="isOpen = false"
+      >
+        <svg
+          fill="currentColor"
+          viewBox="0 0 24 24"
+          class="flex-shrink-0 w-6 h-6 text-indigo-500 hover:text-indigo-800"
+        >
+          <path
+            fill-rule="evenodd"
+            d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z"
+            clip-rule="evenodd"
+          ></path>
+        </svg>
+      </nuxt-link>
+    </div>
+
+    <nav
+      :class="isOpen ? 'block' : 'hidden'"
+      class="px-2 pt-2 pb-4 space-y-1 text-center border-t-2 border-purple-100 sm:border-transparent sm:flex sm:p-0"
+    >
+      <nuxt-link
+        to="/search"
+        class="block p-2 mt-1 font-semibold text-purple-800 rounded hover:bg-indigo-600 hover:text-white"
+        @click.native="isOpen = !isOpen"
+      >
+        Search
+      </nuxt-link>
+      <nuxt-link
+        to="/about"
+        class="block p-2 font-semibold text-purple-800 rounded hover:bg-indigo-600 hover:text-white sm:mt-0 sm:ml-2"
+        @click.native="isOpen = !isOpen"
+      >
+        About
+      </nuxt-link>
+      <nuxt-link
+        to="/team"
+        class="block p-2 font-semibold text-purple-800 rounded hover:bg-indigo-600 hover:text-white sm:mt-0 sm:ml-2"
+        @click.native="isOpen = !isOpen"
+      >
+        Team
+      </nuxt-link>
+    </nav>
+    <!-- </div> -->
+  </header>
+  <!-- <header class="relative p-4 bg-purple-200 border-b border-purple-600">
+    <nav class="sm:hidden">
+      <nuxt-link class="link-default" to="/chat">
+        Chat
+      </nuxt-link>
+      <nuxt-link class="link-default" to="/about">
+        About
+      </nuxt-link>
+      <nuxt-link class="link-default" to="/donate">
+        Donate
+      </nuxt-link>
+      <nuxt-link class="link-default" to="/joinus">
+        Join us!
+      </nuxt-link>
+      <nuxt-link
+        to="/"
+        class="font-serif text-3xl font-semibold text-indigo-600"
+      >
+        MuslimNews
+      </nuxt-link>
+    </nav> -->
+  <!-- <div class="max-w-screen-lg px-4 mx-auto sm:px-6">
       <div
         class="flex items-center justify-between py-6 md:justify-start md:space-x-10 lg:px-20"
       >
@@ -59,6 +161,12 @@
         </div>
         <nav class="hidden space-x-2 sm:flex">
           <nuxt-link
+            to="/search"
+            class="px-4 py-1 text-base font-medium leading-6 text-white transition duration-150 ease-in-out rounded-md hover:bg-indigo-500 focus:outline-none focus:bg-indigo-500"
+          >
+            Search
+          </nuxt-link>
+          <nuxt-link
             to="/about"
             class="px-4 py-1 text-base font-medium leading-6 text-white transition duration-150 ease-in-out rounded-md hover:bg-indigo-500 focus:outline-none focus:bg-indigo-500"
           >
@@ -72,9 +180,9 @@
           </nuxt-link>
         </nav>
       </div>
-    </div>
+    </div> -->
 
-    <!--
+  <!--
     Mobile menu, show/hide based on mobile menu state.
 
     Entering: "duration-200 ease-out"
@@ -84,7 +192,7 @@
       From: "opacity-100 scale-100"
       To: "opacity-0 scale-95"
   -->
-    <div
+  <!-- <div
       :class="isOpen ? 'block' : 'hidden'"
       class="absolute top-0 right-0 p-2 transition origin-top-right transform sm:hidden"
     >
@@ -95,25 +203,23 @@
               <div>
                 <nav class="grid row-gap-8 mr-8">
                   <nuxt-link
-                    to="/top5"
+                    to="/search"
                     class="flex items-center p-3 -m-3 space-x-3 transition duration-150 ease-in-out rounded-md hover:bg-gray-200"
                     @click.native="isOpen = !isOpen"
                   >
                     <svg
-                      class="flex-shrink-0 w-6 h-6 text-indigo-400"
-                      fill="none"
+                      fill="currentColor"
                       viewBox="0 0 24 24"
-                      stroke="currentColor"
+                      class="flex-shrink-0 w-6 h-6 text-indigo-400"
                     >
                       <path
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                        stroke-width="2"
-                        d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"
-                      />
+                        fill-rule="evenodd"
+                        d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z"
+                        clip-rule="evenodd"
+                      ></path>
                     </svg>
                     <div class="text-base font-medium leading-6 text-gray-800">
-                      Top 5
+                      Search
                     </div>
                   </nuxt-link>
                   <nuxt-link
@@ -187,8 +293,8 @@
           </div>
         </div>
       </div>
-    </div>
-  </header>
+    </div> -->
+  <!-- </header> -->
 </template>
 
 <script lang="ts">
