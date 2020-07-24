@@ -166,19 +166,22 @@ export default {
   components: { VClamp },
   async asyncData({ $axios, $config: { newsAPIKey } }) {
     const latestArticleUrl =
-      'https://newsapi.org/v2/everything?apiKey='+ newsAPIKey +' +
+      'https://newsapi.org/v2/everything?apiKey=' +
+      newsAPIKey +
       '&page=1' +
       '&q=(islam OR muslim)' +
       '&sortBy=publishedAt'
 
     const trendingArticleUrl =
-      'https://newsapi.org/v2/everything?apiKey='+ newsAPIKey +' +
+      'https://newsapi.org/v2/everything?apiKey=' +
+      newsAPIKey +
       '&page=1' +
       '&q=(islam OR muslim)' +
       '&sortBy=popularity'
 
     const relevantArticleUrl =
-      'https://newsapi.org/v2/everything?apiKey='+ newsAPIKey +' +
+      'https://newsapi.org/v2/everything?apiKey=' +
+      newsAPIKey +
       '&page=1' +
       '&q=(islam OR muslim)' +
       '&sortBy=relevancy'

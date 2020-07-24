@@ -186,7 +186,8 @@ export default {
   },
   async asyncData({ params, $axios, $config: { newsAPIKey } }) {
     const url =
-      'https://newsapi.org/v2/everything?apiKey='+ newsAPIKey +' +
+      'https://newsapi.org/v2/everything?apiKey=' +
+      newsAPIKey +
       '&page=1&' +
       'q=(islam OR muslim) AND ' +
       params.id +

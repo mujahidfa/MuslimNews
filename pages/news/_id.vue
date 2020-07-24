@@ -199,21 +199,24 @@ export default {
   },
   async asyncData({ params, $axios, $config: { newsAPIKey } }) {
     const latestArticleUrl =
-      'https://newsapi.org/v2/everything?apiKey='+ newsAPIKey +' +
+      'https://newsapi.org/v2/everything?apiKey=' +
+      newsAPIKey +
       '&page=1&' +
       'q=' +
       params.id +
       '&sortBy=publishedAt'
 
     const trendingArticleUrl =
-      'https://newsapi.org/v2/everything?apiKey='+ newsAPIKey +' +
+      'https://newsapi.org/v2/everything?apiKey=' +
+      newsAPIKey +
       '&page=1&' +
       'q=' +
       params.id +
       '&sortBy=popularity'
 
     const relevantArticleUrl =
-      'https://newsapi.org/v2/everything?apiKey='+ newsAPIKey +' +
+      'https://newsapi.org/v2/everything?apiKey=' +
+      newsAPIKey +
       '&page=1&' +
       'q=' +
       params.id +

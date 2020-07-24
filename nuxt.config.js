@@ -3,7 +3,7 @@ export default {
    ** Nuxt rendering mode
    ** See https://nuxtjs.org/api/configuration-mode
    */
-  mode: 'universal',
+  mode: 'spa',
   /*
    ** Nuxt target
    ** See https://nuxtjs.org/api/configuration-target
@@ -75,7 +75,7 @@ export default {
   generate: {
     fallback: true,
   },
-  privateRuntimeConfig: {
+  publicRuntimeConfig: {
     newsAPIKey: process.env.NEWSAPI_KEY,
   },
 }
