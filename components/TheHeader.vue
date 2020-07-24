@@ -1,6 +1,6 @@
 <template>
   <header
-    class="border-b-2 border-purple-100 sm:flex sm:justify-around sm:items-center sm:px-4 sm:py-3"
+    class="font-serif border-b-2 border-purple-200 sm:flex sm:justify-around sm:items-center sm:px-4 sm:py-3"
     :class="{
       'shadow-xl': isOpen === true,
     }"
