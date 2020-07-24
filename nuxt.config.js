@@ -34,7 +34,9 @@ export default {
    ** Plugins to load before mounting the App
    ** https://nuxtjs.org/guide/plugins
    */
+
   plugins: ['@/plugins/dayjs.js', '~/plugins/vue-lazyload.js'],
+
   /*
    ** Auto import components
    ** See https://nuxtjs.org/api/configuration-components
