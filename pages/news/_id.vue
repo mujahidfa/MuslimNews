@@ -192,9 +192,6 @@
 
 <script>
 import VClamp from 'vue-clamp'
-// import Vue from 'vue'
-// import { Context } from '@nuxt/types'
-// import { axios } from '@nuxtjs/axios'
 
 export default {
   components: {
@@ -238,12 +235,6 @@ export default {
       relevantArticles: sortedRelevantArticles,
     }
   },
-  data() {
-    return {
-      sortBy: 'publishedAt',
-      currentPage: 1,
-    }
-  },
   computed: {
     totalPages() {
       return Math.ceil(this.totalResults / 20)
@@ -259,32 +250,9 @@ export default {
       return this.trendingArticles.slice(0, 10)
     },
   },
-  watch: {
-    // whenever question changes, this function will run
-    sortBy() {
-      this.handlePaginateClick(1)
-      this.currentPage = 1
-    },
-  },
   methods: {
     publishTime(time) {
       return this.$dayjs().from(this.$dayjs(time))
-    },
-    async handlePaginateClick(pageNum) {
-      const url =
-        'https://newsapi.org/v2/everything?apiKey=3213fec8c1894a8db251b15ae592f23d' +
-        '&page=' +
-        pageNum +
-        '&q=(islam OR muslim) AND ' +
-        this.$route.params.id +
-        '&sortBy=' +
-        this.sortBy
-
-      this.currentPage = pageNum
-      const { status, totalResults, articles } = await this.$axios.$get(url)
-      this.status = status
-      this.totalResults = totalResults
-      this.articles = articles
     },
   },
 }
