@@ -1,11 +1,11 @@
 <template>
   <main class="w-full lg:max-w-full">
     <div
-      class="text-left px-4 rounded-lg overflow-hidden border-2 border-gray-100 shadow-xl"
+      class="text-left px-4 rounded-lg overflow-hidden border-2 border-gray-100 shadow-lg"
     >
       <!-- TOPIC -->
       <a
-        class="pt-2 font-semibold text-3xl md:text-4xl hover:underline"
+        class="pt-2 font-semibold text-gray-800 text-2xl md:text-4xl hover:underline"
         :href="article.url"
         >{{ article.title }}</a
       >
@@ -19,7 +19,7 @@
           :alt="article.description"
         />
       </div>
-      <v-clamp class="pt-2" autoresize :max-lines="2">{{
+      <v-clamp class="text-gray-700 pt-2" autoresize :max-lines="2">{{
         article.description
       }}</v-clamp>
       <!-- <h2 class="pt-2">
