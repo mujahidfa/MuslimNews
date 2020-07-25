@@ -6,10 +6,11 @@
       </h1>
     </div>
 
-    <div class="flex flex-col items-center justify-center my-12 md:px-56">
-      <div class="rounded-full w-48 h-48 border-2">
-        Image
-      </div>
+    <div class="flex flex-col items-center justify-center my-12 px-16 md:px-64">
+      <img
+        class="mt-16 rounded-full w-48 h-48 border-2"
+        src="~/assets/image/mujahid.jpeg"
+      />
       <div class="mt-2">
         <a
           href="mailto:mujahidfanuar@gmail.com"
@@ -17,8 +18,8 @@
           >Mujahid Anuar</a
         >
         <h2 class="text-xl">
-          A thinker with web & mobile apps, and loves everything beautiful and
-          open source.
+          Tinkers with web & mobile apps, and loves everything beautiful <br />
+          and open source.
         </h2>
         <div class="mt-2 flex flex-row justify-center">
           <a href="https://github.com/mujahidfa"
@@ -31,18 +32,21 @@
           <InstaIcon class="w-8 mx-2" />
         </div>
       </div>
-      <div class="mt-16 rounded-full w-48 h-48 border-2">
-        Image
-      </div>
-      <div class="mt-2">
+
+      <img
+        class="mt-16 rounded-full w-48 h-48 border-2"
+        src="~/assets/image/riza-min.jpg"
+      />
+
+      <div class="my-2">
         <a
           href="mailto:ruhulruzbihan@gmail.com"
           class="text-2xl font-semibold hover:underline"
           >Riza Hassan</a
         >
         <h2 class="text-xl">
-          A Computer Science student interested in building things and learning
-          Entrepreneurship.
+          A Computer Science student interested in building things and <br />
+          learning Entrepreneurship.
         </h2>
         <div class="mt-2 flex flex-row justify-center">
           <a href="https://github.com/rizahassan"
