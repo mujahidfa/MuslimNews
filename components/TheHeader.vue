@@ -94,29 +94,30 @@
         >
           Team
         </nuxt-link>
-        <section
-          class="justify-center px-4 pt-3 text-center border-t border-purple-200 sm:hidden"
-        >
-          <nuxt-link
-            v-for="(keyword, index) in category"
-            :key="index"
-            :to="link(keyword.name)"
-            class="px-4 mx-2 text-sm font-semibold text-gray-800 border border-purple-200 rounded-lg md:mx-4 md:text-base hover:bg-purple-800 hover:text-gray-100"
-            @click.native="isOpen = !isOpen"
-          >
-            {{ keyword.name }}
-          </nuxt-link>
-        </section>
+        <div class="px-2 pt-3 text-center border-t border-purple-200 sm:hidden">
+          <h2 class="font-semibold text-purple-800 mb-2">Categories</h2>
+          <section class="flex overflow-x-auto">
+            <nuxt-link
+              v-for="(keyword, index) in category"
+              :key="index"
+              :to="link(keyword.name)"
+              class="px-4 mx-2 text-sm font-semibold text-gray-800 border border-purple-200 rounded-lg md:mx-4 md:text-base hover:bg-purple-800 hover:text-gray-100"
+              @click.native="isOpen = !isOpen"
+            >
+              {{ keyword.name }}
+            </nuxt-link>
+          </section>
+        </div>
       </nav>
     </div>
 
-    <div class="hidden w-full bg-indigo-800 sm:inline-block">
-      <section class="justify-center text-center">
+    <div class="hidden w-full h-8 bg-indigo-800 sm:inline-block">
+      <section class="pt-1 justify-center text-center">
         <nuxt-link
           v-for="(keyword, index) in category"
           :key="index"
           :to="link(keyword.name)"
-          class="h-full mx-2 text-sm font-semibold text-white md:mx-4 md:text-base hover:bg-white hover:text-indigo-600"
+          class="h-full w-full mx-2 text-sm font-semibold text-white md:mx-4 md:text-base hover:text-indigo-600 hover:bg-white"
         >
           {{ keyword.name }}
         </nuxt-link>

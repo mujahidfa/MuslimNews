@@ -34,8 +34,12 @@
             rel="noopener noreferrer"
             ><TwitterIcon class="w-8 mx-2"
           /></a>
-
-          <InstaIcon class="w-8 mx-2" />
+          <a
+            href="https://www.linkedin.com/in/mujahid-fakhrul-anuar-16b6751b2/"
+            target="_blank"
+            rel="noopener noreferrer"
+            ><LinkedinIcon class="w-8 mx-2"
+          /></a>
         </div>
       </div>
 
@@ -62,16 +66,16 @@
             ><GithubIcon class="w-8 mx-2"
           /></a>
           <a
-            href="https://github.com/rizahassan"
+            href="https://twitter.com/ruhulruzbihan"
             target="_blank"
             rel="noopener noreferrer"
             ><TwitterIcon class="w-8 mx-2"
           /></a>
           <a
-            href="https://www.instagram.com/riza__hassan/"
+            href="https://www.linkedin.com/in/riza-hassan/"
             target="_blank"
             rel="noopener noreferrer"
-            ><InstaIcon class="w-8 mx-2"
+            ><LinkedinIcon class="w-8 mx-2"
           /></a>
         </div>
       </div>
