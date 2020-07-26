@@ -258,6 +258,26 @@ export default {
       return this.$dayjs().from(this.$dayjs(time))
     },
   },
+  // validate route name by matching it to news category
+  validate({ params }) {
+    const category = [
+      'Palestine',
+      'Syria',
+      'Uighur',
+      'Yemen',
+      'Rohingya',
+      'Islamophobia',
+      'Muslim ban',
+      'palestine',
+      'syria',
+      'uighur',
+      'yemen',
+      'rohingya',
+      'islamophobia',
+      'muslim ban',
+    ]
+    return category.includes(params.id)
+  },
 }
 </script>
 
