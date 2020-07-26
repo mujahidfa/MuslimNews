@@ -76,7 +76,6 @@ export default {
     fallback: true,
   },
   publicRuntimeConfig: {
-    newsAPIKey: process.env.NEWSAPI_KEY,
     bingApiKey: process.env.BINGAPI_KEY,
   },
 }

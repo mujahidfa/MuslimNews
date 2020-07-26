@@ -210,9 +210,6 @@ export default {
     }
   },
   computed: {
-    totalPages() {
-      return Math.ceil(this.totalResults / 20)
-    },
     mainArticles() {
       return this.relevantArticles.slice(0, 2)
     },
