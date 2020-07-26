@@ -23,15 +23,15 @@
           <a :href="article.url" target="_blank" rel="noopener noreferrer">
             <div
               id="articleImage"
-              v-lazy:background-image="article.urlToImage"
+              v-lazy:background-image="imageUrl(article)"
               class="bg-center bg-no-repeat bg-cover imageMain rounded-t-md"
             />
             <div
               class="p-2 bg-gray-100 hover:bg-gray-300 rounded-b-md md:p-4 md:space-y-1"
             >
               <p class="text-xs text-left text-indigo-600 sm:text-sm">
-                {{ publishTime(article.publishedAt) }} /
-                {{ article.source.name }}
+                {{ publishTime(article.datePublished) }} /
+                {{ article.provider[0].name }}
               </p>
 
               <v-clamp
@@ -39,7 +39,7 @@
                 :max-lines="3"
                 class="pb-2 font-bold leading-5 text-left text-gray-800 md:text-2xl hover:underline hover:text-indigo-700"
               >
-                {{ article.title }}
+                {{ article.name }}
               </v-clamp>
               <v-clamp
                 autoresize
@@ -81,21 +81,21 @@
               </p>
               <div class="">
                 <p class="text-xs text-left text-indigo-600">
-                  {{ publishTime(article.publishedAt) }} /
-                  {{ article.source.name }}
+                  {{ publishTime(article.datePublished) }} /
+                  {{ article.provider[0].name }}
                 </p>
                 <v-clamp
                   autoresize
                   :max-lines="3"
                   class="leading-5 text-left hover:underline hover:text-indigo-700"
                 >
-                  {{ article.title }}
+                  {{ article.name }}
                 </v-clamp>
               </div>
             </div>
 
             <div
-              v-lazy:background-image="article.urlToImage"
+              v-lazy:background-image="imageUrl(article)"
               class="bg-center bg-no-repeat bg-cover image"
             />
           </a>
@@ -138,19 +138,20 @@
           rel="noopener noreferrer"
         >
           <div
-            v-lazy:background-image="article.urlToImage"
+            v-lazy:background-image="imageUrl(article)"
             class="bg-center bg-no-repeat bg-cover imageLatest"
           />
           <div class="">
             <p class="text-xs text-left text-indigo-600">
-              {{ publishTime(article.publishedAt) }} / {{ article.source.name }}
+              {{ publishTime(article.datePublished) }} /
+              {{ article.provider[0].name }}
             </p>
             <v-clamp
               autoresize
               :max-lines="2"
               class="font-semibold leading-5 text-left text-gray-800 hover:underline hover:text-indigo-700"
             >
-              {{ article.title }}
+              {{ article.name }}
             </v-clamp>
           </div>
         </a>
@@ -161,44 +162,40 @@
 
 <script>
 import VClamp from 'vue-clamp'
+import { url } from '../api/apiurl.js'
 
 export default {
   components: { VClamp },
-  async asyncData({ $axios, $config: { newsAPIKey } }) {
-    const latestArticleUrl =
-      'https://newsapi.org/v2/everything?apiKey=' +
-      newsAPIKey +
-      '&page=1' +
-      '&q=(islam OR muslim)' +
-      '&sortBy=publishedAt'
-
-    const trendingArticleUrl =
-      'https://newsapi.org/v2/everything?apiKey=' +
-      newsAPIKey +
-      '&page=1' +
-      '&q=(islam OR muslim)' +
-      '&sortBy=popularity'
-
-    const relevantArticleUrl =
-      'https://newsapi.org/v2/everything?apiKey=' +
-      newsAPIKey +
-      '&page=1' +
-      '&q=(islam OR muslim)' +
-      '&sortBy=relevancy'
-
-    const latestArticles = await $axios.$get(latestArticleUrl)
-    const trendingArticles = await $axios.$get(trendingArticleUrl)
-    const relevantArticles = await $axios.$get(relevantArticleUrl)
-
-    const sortedRelevantArticles = relevantArticles.articles
-
-    sortedRelevantArticles.sort((a, b) =>
-      b.publishedAt.localeCompare(a.publishedAt)
+  async asyncData({ $axios, $config: { bingApiKey } }) {
+    const latestArticles = await $axios.$get(
+      url + '&count=20&sortBy=date&q=islam OR muslim',
+      {
+        headers: {
+          'x-rapidapi-host': 'bing-news-search1.p.rapidapi.com',
+          'x-rapidapi-key': bingApiKey,
+          'x-bingapis-sdk': 'true',
+        },
+      }
+    )
+    const relevantArticles = await $axios.$get(
+      url + '&count=12&sortBy=relevance&q=islam OR muslim',
+      {
+        headers: {
+          'x-rapidapi-host': 'bing-news-search1.p.rapidapi.com',
+          'x-rapidapi-key': bingApiKey,
+          'x-bingapis-sdk': 'true',
+        },
+      }
     )
 
+    const sortedRelevantArticles = relevantArticles.value
+
+    // sortedRelevantArticles.sort((a, b) =>
+    //   b.publishedAt.localeCompare(a.publishedAt)
+    // )
+
     return {
-      latestArticles: latestArticles.articles,
-      trendingArticles: trendingArticles.articles,
+      latestArticles: latestArticles.value,
       relevantArticles: sortedRelevantArticles,
     }
   },
@@ -217,15 +214,28 @@ export default {
       return Math.ceil(this.totalResults / 20)
     },
     mainArticles() {
-      return this.relevantArticles.slice(0, 1)
+      return this.relevantArticles.slice(0, 2)
     },
     top10TrendingArticles() {
-      return this.trendingArticles.slice(0, 5)
+      return this.relevantArticles.slice(2, 12)
     },
   },
   methods: {
     publishTime(time) {
       return this.$dayjs().from(this.$dayjs(time))
+    },
+    imageUrl(article) {
+      if (typeof article.image === 'undefined') {
+        return ''
+      } else if (typeof article.image.contentUrl === 'undefined') {
+        if (typeof article.image.thumbnail.contentUrl === 'undefined') {
+          return ''
+        } else {
+          return article.image.thumbnail.contentUrl
+        }
+      } else {
+        return article.image.contentUrl
+      }
     },
   },
 }
