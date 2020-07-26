@@ -1,14 +1,14 @@
 <template>
-  <main class="min-h-screen max-w-screen justify-center text-center">
+  <main class="justify-center min-h-screen text-center max-w-screen">
     <div>
-      <h1 class="mt-8 font-serif font-bold text-3xl md:text-4xl text-gray-800">
+      <h1 class="mt-8 font-serif text-3xl font-bold text-gray-800 md:text-4xl">
         Meet the team
       </h1>
     </div>
 
-    <div class="flex flex-col items-center justify-center my-12 px-16 md:px-64">
+    <div class="flex flex-col items-center justify-center px-16 my-12 md:px-64">
       <img
-        class="mt-16 rounded-full w-48 h-48 border-2"
+        class="w-48 h-48 mt-16 border-2 rounded-full"
         src="~/assets/image/mujahid.jpeg"
       />
       <div class="mt-2">
@@ -21,11 +21,17 @@
           Tinkers with web & mobile apps, and loves everything beautiful <br />
           and open source.
         </h2>
-        <div class="mt-2 flex flex-row justify-center">
-          <a href="https://github.com/mujahidfa"
+        <div class="flex flex-row justify-center mt-2">
+          <a
+            href="https://github.com/mujahidfa"
+            target="_blank"
+            rel="noopener noreferrer"
             ><GithubIcon class="w-8 mx-2"
           /></a>
-          <a href="https://github.com/mujahidfa"
+          <a
+            href="https://twitter.com/mujahid_fa"
+            target="_blank"
+            rel="noopener noreferrer"
             ><TwitterIcon class="w-8 mx-2"
           /></a>
 
@@ -34,7 +40,7 @@
       </div>
 
       <img
-        class="mt-16 rounded-full w-48 h-48 border-2"
+        class="w-48 h-48 mt-16 border-2 rounded-full"
         src="~/assets/image/riza-min.jpg"
       />
 
@@ -48,14 +54,23 @@
           A Computer Science student interested in building things and <br />
           learning Entrepreneurship.
         </h2>
-        <div class="mt-2 flex flex-row justify-center">
-          <a href="https://github.com/rizahassan"
+        <div class="flex flex-row justify-center mt-2">
+          <a
+            href="https://github.com/rizahassan"
+            target="_blank"
+            rel="noopener noreferrer"
             ><GithubIcon class="w-8 mx-2"
           /></a>
-          <a href="https://github.com/rizahassan"
+          <a
+            href="https://github.com/rizahassan"
+            target="_blank"
+            rel="noopener noreferrer"
             ><TwitterIcon class="w-8 mx-2"
           /></a>
-          <a href="https://www.instagram.com/riza__hassan/"
+          <a
+            href="https://www.instagram.com/riza__hassan/"
+            target="_blank"
+            rel="noopener noreferrer"
             ><InstaIcon class="w-8 mx-2"
           /></a>
         </div>
