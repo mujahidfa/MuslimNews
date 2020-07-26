@@ -59,7 +59,7 @@
           <h1
             class="font-mono font-semibold tracking-wider text-left text-indigo-700 uppercase sm:text-xl md:text-2xl"
           >
-            TRENDING NEWS
+            RELEVANT NEWS
           </h1>
           <div class="self-center w-full border border-gray-400" />
         </div>
