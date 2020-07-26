@@ -54,15 +54,32 @@
 
       <nav
         :class="isOpen ? 'block' : 'hidden'"
-        class="px-2 pt-2 pb-4 space-y-1 text-center border-t-2 border-purple-100 sm:border-transparent sm:flex sm:p-0"
+        class="px-2 pt-2 pb-4 space-y-1 text-center justify-center items-center border-t-2 border-purple-100 sm:border-transparent sm:flex sm:p-0"
       >
         <nuxt-link
+          to="/search"
+          class="flex items-center p-3 pb-1 -m-3 space-x-3 transition duration-150 ease-in-out rounded-md hidden sm:block"
+          @click.native="isOpen = false"
+        >
+          <svg
+            fill="currentColor"
+            viewBox="0 0 24 24"
+            class="flex-shrink-0 w-6 h-6 text-indigo-500 hover:text-indigo-800"
+          >
+            <path
+              fill-rule="evenodd"
+              d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z"
+              clip-rule="evenodd"
+            ></path>
+          </svg>
+        </nuxt-link>
+        <!-- <nuxt-link
           to="/search"
           class="block p-2 mt-1 font-semibold text-purple-800 rounded hover:bg-indigo-600 hover:text-white"
           @click.native="isOpen = !isOpen"
         >
           Search
-        </nuxt-link>
+        </nuxt-link> -->
         <nuxt-link
           to="/about"
           class="block p-2 font-semibold text-purple-800 rounded hover:bg-indigo-600 hover:text-white sm:mt-0 sm:ml-2"
