@@ -35,7 +35,11 @@ export default {
    ** https://nuxtjs.org/guide/plugins
    */
 
-  plugins: ['@/plugins/dayjs.js', '~/plugins/vue-lazyload.js'],
+  plugins: [
+    '@/plugins/dayjs.js',
+    '~/plugins/ga.js',
+    '~/plugins/vue-lazyload.js',
+  ],
 
   /*
    ** Auto import components
