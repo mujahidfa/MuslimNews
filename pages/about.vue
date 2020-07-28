@@ -72,6 +72,13 @@
         </h2>
       </div>
     </div>
+    <div class="text-center inline-block my-24">
+      <a
+        class="p-2 text-white hover:text-black text-xl border-2 bg-indigo-600 hover:bg-white border-purple-800"
+        href="mailto:muslimnewsapp@gmail.com"
+        >Contact Us</a
+      >
+    </div>
   </main>
 </template>
 
