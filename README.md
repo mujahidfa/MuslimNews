@@ -6,6 +6,8 @@ MuslimNews is a news website gathering all Islam and Muslim related news article
 
 Our website: https://muslimnews.netlify.app/
 
+Link to Devpost: https://devpost.com/software/muslimnews
+
 ### Inspiration
 
 These days I rely solely on Twitter or Facebook to get my daily dose of news and updates. Sometimes I find myself looking for what's going on in other Muslim countries and with the ummah at large. But by using only Twitter and Facebook, it's hard to get curated news on a specific topic. So we decided to create a website that collects all Muslim/Islam related news and displays it in a good looking website.
