@@ -133,6 +133,7 @@ export default Vue.extend({
     return {
       isOpen: false,
       category: [
+        { name: 'Beirut' },
         { name: 'Palestine' },
         { name: 'Syria' },
         { name: 'Uighur' },

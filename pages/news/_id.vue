@@ -266,6 +266,7 @@ export default {
   // validate route name by matching it to news category
   validate({ params }) {
     const category = [
+      'Beirut',
       'Palestine',
       'Syria',
       'Uighur',
@@ -280,6 +281,7 @@ export default {
       'rohingya',
       'islamophobia',
       'muslim ban',
+      'beirut',
     ]
     return category.includes(params.id)
   },

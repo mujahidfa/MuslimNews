@@ -186,10 +186,10 @@ export default {
     },
     imageUrl(article) {
       if (typeof article.image === 'undefined') {
-        return ''
+        return 'https://image.flaticon.com/icons/svg/2965/2965879.svg'
       } else if (typeof article.image.contentUrl === 'undefined') {
         if (typeof article.image.thumbnail.contentUrl === 'undefined') {
-          return ''
+          return 'https://image.flaticon.com/icons/svg/2965/2965879.svg'
         } else {
           return article.image.thumbnail.contentUrl
         }
