@@ -16,7 +16,7 @@
         </a>
         &
         <a
-          href="https://github.com/ikmalsyafiq"
+          href="https://github.com/rizahassan"
           target="_blank"
           rel="noopener noreferrer"
           class="hover:text-blue-600"

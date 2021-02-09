@@ -13,7 +13,7 @@
     </div>
 
     <div class="lg:flex lg:flex-row lg:space-x-3">
-      <!-- 3 main latest news -->
+      <!-- 4 main relevant news -->
       <div class="lg:w-5/12">
         <section
           v-for="article in mainArticles"
@@ -23,23 +23,23 @@
           <a :href="article.url" target="_blank" rel="noopener noreferrer">
             <div
               id="articleImage"
-              v-lazy:background-image="article.urlToImage"
+              v-lazy:background-image="imageUrl(article)"
               class="bg-center bg-no-repeat bg-cover imageMain rounded-t-md"
             />
             <div
               class="p-2 bg-gray-100 hover:bg-gray-300 rounded-b-md md:p-4 md:space-y-1"
             >
               <p class="text-xs text-left text-indigo-600 sm:text-sm">
-                {{ publishTime(article.publishedAt) }} /
-                {{ article.source.name }}
+                {{ publishTime(article.datePublished) }} /
+                {{ article.provider[0].name }}
               </p>
 
               <v-clamp
                 autoresize
                 :max-lines="3"
-                class="font-bold leading-5 text-left text-gray-800 md:text-2xl hover:underline hover:text-indigo-700"
+                class="font-bold leading-5 text-left text-gray-800 md:text-2xl md:p-1 hover:underline hover:text-indigo-700"
               >
-                {{ article.title }}
+                {{ article.name }}
               </v-clamp>
             </div>
           </a>
@@ -47,10 +47,10 @@
       </div>
 
       <div class="md:flex md:flex-row md:space-x-4 lg:w-7/12 lg:space-x-3">
-        <!-- latest news -->
+        <!-- relevant news -->
         <div class="md:w-7/12 lg:w-5/12">
           <section
-            v-for="article in next7LatestArticles"
+            v-for="article in next7RelevantArticles"
             :key="article.url"
             class="w-full max-w-screen-lg p-3 mx-auto mb-4 border-b border-indigo-200 hover:bg-gray-100"
           >
@@ -62,19 +62,19 @@
             >
               <div class="">
                 <p class="text-xs text-left text-indigo-600">
-                  {{ publishTime(article.publishedAt) }} /
-                  {{ article.source.name }}
+                  {{ publishTime(article.datePublished) }} /
+                  {{ article.provider[0].name }}
                 </p>
                 <v-clamp
                   autoresize
                   :max-lines="3"
                   class="leading-5 text-left hover:underline hover:text-indigo-700"
                 >
-                  {{ article.title }}
+                  {{ article.name }}
                 </v-clamp>
               </div>
               <div
-                v-lazy:background-image="article.urlToImage"
+                v-lazy:background-image="imageUrl(article)"
                 class="bg-center bg-no-repeat bg-cover image"
               />
             </a>
@@ -87,7 +87,7 @@
             <h1
               class="font-mono font-semibold tracking-wider text-left text-indigo-700 uppercase"
             >
-              TRENDING NEWS
+              RELEVANT NEWS
             </h1>
             <div class="self-center w-full border border-gray-400" />
           </div>
@@ -109,21 +109,21 @@
                 </p>
                 <div class="">
                   <p class="text-xs text-left text-indigo-600">
-                    {{ publishTime(article.publishedAt) }} /
-                    {{ article.source.name }}
+                    {{ publishTime(article.datePublished) }} /
+                    {{ article.provider[0].name }}
                   </p>
                   <v-clamp
                     autoresize
                     :max-lines="3"
                     class="leading-5 text-left hover:underline hover:text-indigo-700"
                   >
-                    {{ article.title }}
+                    {{ article.name }}
                   </v-clamp>
                 </div>
               </div>
 
               <div
-                v-lazy:background-image="article.urlToImage"
+                v-lazy:background-image="imageUrl(article)"
                 class="bg-center bg-no-repeat bg-cover image"
               />
             </a>
@@ -132,12 +132,12 @@
       </div>
     </div>
 
-    <!-- Start more news // "relevant" news-->
+    <!-- Start latest news -->
     <div class="pb-1 lg:hidden">
       <h1
         class="font-mono font-semibold tracking-wider text-left text-indigo-700 uppercase"
       >
-        MORE NEWS
+        LATEST NEWS
       </h1>
       <div class="self-center w-full border border-gray-400" />
     </div>
@@ -146,13 +146,13 @@
       <h1
         class="px-10 py-1 font-mono text-base font-semibold tracking-widest text-gray-100 uppercase bg-indigo-700"
       >
-        MORE NEWS
+        LATEST NEWS
       </h1>
       <div class="self-center w-full border border-gray-400" />
     </div>
     <!-- more news -->
     <section
-      v-for="article in relevantArticles"
+      v-for="article in latestArticles"
       :key="article.url"
       class="w-full max-w-screen-lg p-3 mx-auto mb-4 border-b border-indigo-200 hover:bg-gray-100"
     >
@@ -164,14 +164,15 @@
       >
         <div class="">
           <p class="text-xs text-left text-indigo-600">
-            {{ publishTime(article.publishedAt) }} / {{ article.source.name }}
+            {{ publishTime(article.datePublished) }} /
+            {{ article.provider[0].name }}
           </p>
           <v-clamp
             autoresize
             :max-lines="3"
             class="leading-5 text-left hover:underline hover:text-indigo-700"
           >
-            {{ article.title }}
+            {{ article.name }}
           </v-clamp>
           <v-clamp
             autoresize
@@ -182,7 +183,7 @@
           </v-clamp>
         </div>
         <div
-          v-lazy:background-image="article.urlToImage"
+          v-lazy:background-image="imageUrl(article)"
           class="bg-center bg-no-repeat bg-cover image"
         />
       </a>
@@ -192,93 +193,97 @@
 
 <script>
 import VClamp from 'vue-clamp'
-// import Vue from 'vue'
-// import { Context } from '@nuxt/types'
-// import { axios } from '@nuxtjs/axios'
+import { url } from '../../api/apiurl.js'
 
 export default {
   components: {
     VClamp,
   },
-  async asyncData({ params, $axios }) {
-    const latestArticleUrl =
-      'https://newsapi.org/v2/everything?apiKey=3213fec8c1894a8db251b15ae592f23d' +
-      '&page=1&' +
-      'q=' +
-      params.id +
-      '&sortBy=publishedAt'
+  async asyncData({ params, $axios, $config: { bingApiKey } }) {
+    const latestArticles = await $axios.$get(
+      url + '&count=20&sortBy=date&q=' + params.id,
+      {
+        headers: {
+          'x-rapidapi-host': 'bing-news-search1.p.rapidapi.com',
+          'x-rapidapi-key': bingApiKey,
+          'x-bingapis-sdk': 'true',
+        },
+      }
+    )
+    const relevantArticles = await $axios.$get(
+      url + '&count=14&sortBy=relevance&q=' + params.id,
+      {
+        headers: {
+          'x-rapidapi-host': 'bing-news-search1.p.rapidapi.com',
+          'x-rapidapi-key': bingApiKey,
+          'x-bingapis-sdk': 'true',
+        },
+      }
+    )
 
-    const trendingArticleUrl =
-      'https://newsapi.org/v2/everything?apiKey=3213fec8c1894a8db251b15ae592f23d' +
-      '&page=1&' +
-      'q=' +
-      params.id +
-      '&sortBy=popularity'
+    const sortedRelevantArticles = relevantArticles.value
 
-    const relevantArticleUrl =
-      'https://newsapi.org/v2/everything?apiKey=3213fec8c1894a8db251b15ae592f23d' +
-      '&page=1&' +
-      'q=' +
-      params.id +
-      '&sortBy=relevancy'
-
-    const latestArticles = await $axios.$get(latestArticleUrl)
-    const trendingArticles = await $axios.$get(trendingArticleUrl)
-    const relevantArticles = await $axios.$get(relevantArticleUrl)
+    sortedRelevantArticles.sort((a, b) =>
+      b.datePublished.localeCompare(a.datePublished)
+    )
 
     return {
-      latestArticles: latestArticles.articles,
-      trendingArticles: trendingArticles.articles,
-      relevantArticles: relevantArticles.articles,
-    }
-  },
-  data() {
-    return {
-      sortBy: 'publishedAt',
-      currentPage: 1,
+      latestArticles: latestArticles.value,
+      trendingArticles: relevantArticles.value,
+      relevantArticles: relevantArticles.value,
+      sortedRelevantArticles,
     }
   },
   computed: {
-    totalPages() {
-      return Math.ceil(this.totalResults / 20)
-    },
     mainArticles() {
-      return this.latestArticles.slice(0, 3)
+      return this.sortedRelevantArticles.slice(0, 4)
     },
-    next7LatestArticles() {
-      return this.latestArticles.slice(3, 11)
+    next7RelevantArticles() {
+      return this.sortedRelevantArticles.slice(4, 14)
     },
     top10TrendingArticles() {
       return this.trendingArticles.slice(0, 10)
-    },
-  },
-  watch: {
-    // whenever question changes, this function will run
-    sortBy() {
-      this.handlePaginateClick(1)
-      this.currentPage = 1
     },
   },
   methods: {
     publishTime(time) {
       return this.$dayjs().from(this.$dayjs(time))
     },
-    async handlePaginateClick(pageNum) {
-      const url =
-        'https://newsapi.org/v2/everything?apiKey=3213fec8c1894a8db251b15ae592f23d' +
-        '&page=' +
-        pageNum +
-        '&q=(islam OR muslim) AND ' +
-        this.$route.params.id +
-        '&sortBy=' +
-        this.sortBy
-
-      this.currentPage = pageNum
-      const { status, totalResults, articles } = await this.$axios.$get(url)
-      this.status = status
-      this.totalResults = totalResults
-      this.articles = articles
+    imageUrl(article) {
+      if (typeof article.image === 'undefined') {
+        return 'https://image.flaticon.com/icons/svg/2965/2965879.svg'
+      } else if (typeof article.image.contentUrl === 'undefined') {
+        if (typeof article.image.thumbnail.contentUrl === 'undefined') {
+          return 'https://image.flaticon.com/icons/svg/2965/2965879.svg'
+        } else {
+          return article.image.thumbnail.contentUrl
+        }
+      } else {
+        return article.image.contentUrl
+      }
     },
+  },
+  // validate route name by matching it to news category
+  validate({ params }) {
+    const category = [
+      'Beirut',
+      'Palestine',
+      'Syria',
+      'Uighur',
+      'Yemen',
+      'Rohingya',
+      'Islamophobia',
+      'Muslim ban',
+      'palestine',
+      'syria',
+      'uighur',
+      'yemen',
+      'rohingya',
+      'islamophobia',
+      'muslim ban',
+      'beirut',
+    ]
+    return category.includes(params.id)
   },
 }
 </script>

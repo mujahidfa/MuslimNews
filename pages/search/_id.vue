@@ -11,7 +11,7 @@
       {{ this.$route.params.id }}
     </h1>
 
-    <template v-if="totalResults === 0">
+    <template v-if="areThereNoResults === true">
       <p class="pt-6 pb-4">No news articles found for this keyword.</p>
       <nuxt-link to="/search" class="text-indigo-700 hover:text-green-600">
         Search again
@@ -28,24 +28,33 @@
         </nuxt-link>
       </div>
 
-      <!-- <p>Total results: {{ totalResults }}</p>
-    <p>Total pages: {{ totalPages }}</p> -->
       <section
         class="flex flex-row items-center max-w-screen-lg pb-8 mx-auto text-left md:text-lg"
       >
         <p>Sort by:</p>
         <button
           :class="{
+            'bg-indigo-100 text-indigo-700': sortBy === 'relevancy',
+            'text-gray-500 hover:text-indigo-600 focus:text-indigo-600':
+              sortBy !== 'relevancy',
+          }"
+          class="px-3 py-2 ml-2 font-medium leading-none rounded-lg focus:outline-none hover:text-indigo-600 focus:text-indigo-600"
+          @click="sortBy = 'relevancy'"
+        >
+          relevancy
+        </button>
+        <button
+          :class="{
             'bg-indigo-100 text-indigo-700': sortBy === 'publishedAt',
             'text-gray-500 hover:text-indigo-600 focus:text-indigo-600':
               sortBy !== 'publishedAt',
           }"
-          class="px-3 py-2 ml-2 font-medium leading-none rounded-lg focus:outline-none hover:text-indigo-600 focus:text-indigo-600"
+          class="px-3 py-2 font-medium leading-none rounded-lg focus:outline-none hover:text-indigo-600 focus:text-indigo-600"
           @click="sortBy = 'publishedAt'"
         >
           latest
         </button>
-        <button
+        <!-- <button
           :class="{
             'bg-indigo-100 text-indigo-700': sortBy === 'popularity',
             'text-gray-500 hover:text-indigo-600 focus:text-indigo-600':
@@ -57,65 +66,45 @@
           @click="sortBy = 'popularity'"
         >
           popularity
-        </button>
-        <button
-          :class="{
-            'bg-indigo-100 text-indigo-700': sortBy === 'relevancy',
-            'text-gray-500 hover:text-indigo-600 focus:text-indigo-600':
-              sortBy !== 'relevancy',
-          }"
-          class="px-3 py-2 font-medium leading-none rounded-lg focus:outline-none hover:text-indigo-600 focus:text-indigo-600"
-          @click="sortBy = 'relevancy'"
-        >
-          relevancy
-        </button>
+        </button> -->
       </section>
 
       <section
         v-for="article in articles"
         :key="article.url"
-        class="w-full max-w-screen-lg p-3 mx-auto mb-4 bg-gray-100 border border-indigo-100 rounded-md shadow-lg hover:bg-gray-200"
+        class="w-full max-w-screen-lg p-3 mx-auto mb-4 border-b border-indigo-200 hover:bg-gray-100"
       >
-        <div class="flex justify-start space-x-3">
-          <!-- <div class="w-auto"> -->
-          <!-- <img
-          class="w-24 h-20 rounded-md"
-          :src="article.urlToImage"
-          alt="Article image."
-        /> -->
+        <a
+          class="flex justify-start space-x-4 font-semibold text-gray-800"
+          :href="article.url"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
           <div
-            v-lazy:background-image="article.urlToImage"
+            v-lazy:background-image="imageUrl(article)"
             class="bg-center bg-no-repeat bg-cover image"
           />
-          <!-- <img
-          v-lazy="article.urlToImage"
-          class="bg-center bg-no-repeat bg-cover image"
-        /> -->
-          <!-- </div> -->
-
-          <div class="flex-grow space-y-2">
-            <h1 class="leading-5 text-left">
-              <a
-                class="font-semibold text-gray-900 hover:underline hover:text-indigo-700"
-                :href="article.url"
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                {{ article.title }}
-              </a>
-            </h1>
+          <div>
+            <p class="text-xs text-left text-indigo-600">
+              {{ publishTime(article.datePublished) }} /
+              {{ article.provider[0].name }}
+            </p>
+            <v-clamp
+              autoresize
+              :max-lines="3"
+              class="leading-5 text-left hover:underline hover:text-indigo-700"
+            >
+              {{ article.title }}
+            </v-clamp>
             <v-clamp
               autoresize
               :max-lines="2"
               class="text-sm leading-snug text-left text-gray-600 break-words"
             >
-              {{ article.description }}
+              {{ article.name }}
             </v-clamp>
-            <p class="text-xs text-right text-indigo-500">
-              {{ publishTime(article.publishedAt) }}
-            </p>
           </div>
-        </div>
+        </a>
       </section>
 
       <Pagination
@@ -136,34 +125,52 @@
 
 <script>
 import VClamp from 'vue-clamp'
-// import Vue from 'vue'
-// import { Context } from '@nuxt/types'
-// import { axios } from '@nuxtjs/axios'
+import { url } from '../../api/apiurl.js'
 
 export default {
   components: {
     VClamp,
   },
-  async asyncData({ params, $axios }) {
-    const url =
-      'https://newsapi.org/v2/everything?apiKey=3213fec8c1894a8db251b15ae592f23d' +
-      '&page=1&' +
-      'q=(islam OR muslim) AND ' +
-      params.id +
-      '&sortBy=publishedAt'
+  async asyncData({ params, $axios, $config: { bingApiKey } }) {
+    const relevantArticles = await $axios.$get(
+      url + '&count=20&sortBy=relevance&q=' + params.id,
+      {
+        headers: {
+          'x-rapidapi-host': 'bing-news-search1.p.rapidapi.com',
+          'x-rapidapi-key': bingApiKey,
+          'x-bingapis-sdk': 'true',
+        },
+      }
+    )
 
-    const { status, totalResults, articles } = await $axios.$get(url)
-    return { status, totalResults, articles }
+    return {
+      articles: relevantArticles.value,
+      totalEstimatedMatches: relevantArticles.totalEstimatedMatches,
+    }
   },
   data() {
     return {
-      sortBy: 'publishedAt',
+      sortBy: 'relevancy',
       currentPage: 1,
     }
   },
   computed: {
     totalPages() {
-      return Math.ceil(this.totalResults / 20)
+      if (this.areThereNoResults) {
+        return 0
+      } else {
+        return Math.ceil(this.totalResults / 20)
+      }
+    },
+    totalResults() {
+      if (this.areThereNoResults) {
+        return 0
+      } else {
+        return this.totalEstimatedMatches
+      }
+    },
+    areThereNoResults() {
+      return typeof this.totalEstimatedMatches === 'undefined'
     },
   },
   watch: {
@@ -177,21 +184,41 @@ export default {
     publishTime(time) {
       return this.$dayjs().from(this.$dayjs(time))
     },
+    imageUrl(article) {
+      if (typeof article.image === 'undefined') {
+        return 'https://image.flaticon.com/icons/svg/2965/2965879.svg'
+      } else if (typeof article.image.contentUrl === 'undefined') {
+        if (typeof article.image.thumbnail.contentUrl === 'undefined') {
+          return 'https://image.flaticon.com/icons/svg/2965/2965879.svg'
+        } else {
+          return article.image.thumbnail.contentUrl
+        }
+      } else {
+        return article.image.contentUrl
+      }
+    },
     async handlePaginateClick(pageNum) {
+      const offset = pageNum * 20 - 20
       const url =
-        'https://newsapi.org/v2/everything?apiKey=3213fec8c1894a8db251b15ae592f23d' +
-        '&page=' +
-        pageNum +
+        'https://bing-news-search1.p.rapidapi.com/news/search?freshness=Day&textFormat=Raw&originalImg=true&safeSearch=Off' +
+        '&count=20' +
+        '&offset=' +
+        offset +
         '&q=(islam OR muslim) AND ' +
         this.$route.params.id +
         '&sortBy=' +
         this.sortBy
 
       this.currentPage = pageNum
-      const { status, totalResults, articles } = await this.$axios.$get(url)
-      this.status = status
-      this.totalResults = totalResults
-      this.articles = articles
+      const { totalEstimatedMatches, value } = await this.$axios.$get(url, {
+        headers: {
+          'x-rapidapi-host': 'bing-news-search1.p.rapidapi.com',
+          'x-rapidapi-key': this.$config.bingApiKey,
+          'x-bingapis-sdk': 'true',
+        },
+      })
+      this.totalEstimatedMatches = totalEstimatedMatches
+      this.articles = value
     },
   },
 }
@@ -205,17 +232,4 @@ export default {
   flex: 0 0 6rem;
   border-radius: 0.375rem;
 }
-/* @screen lg {
-  .image {
-    width: 96px;
-    height: 96px;
-    flex: 0 0 96px;
-  }
-} */
-/* img::before {
-  display: block;
-  content: '';
-  padding-top: calc(100% * 2 / 3);
-  You could reduce this expression with a preprocessor or by doing the math. I've kept the longer form in `calc()` to make the math more readable for this demo.
-} */
 </style>

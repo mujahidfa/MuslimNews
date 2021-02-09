@@ -3,12 +3,12 @@ export default {
    ** Nuxt rendering mode
    ** See https://nuxtjs.org/api/configuration-mode
    */
-  mode: 'universal',
+  mode: 'spa',
   /*
    ** Nuxt target
    ** See https://nuxtjs.org/api/configuration-target
    */
-  target: 'server',
+  target: 'static',
   /*
    ** Headers of the page
    ** See https://nuxtjs.org/api/configuration-head
@@ -35,7 +35,11 @@ export default {
    ** https://nuxtjs.org/guide/plugins
    */
 
-  plugins: ['@/plugins/dayjs.js', '~/plugins/vue-lazyload.js'],
+  plugins: [
+    '@/plugins/dayjs.js',
+    '~/plugins/ga.js',
+    '~/plugins/vue-lazyload.js',
+  ],
 
   /*
    ** Auto import components
@@ -71,5 +75,11 @@ export default {
    */
   build: {
     transpile: ['vue-clamp', 'resize-detector'],
+  },
+  generate: {
+    fallback: true,
+  },
+  publicRuntimeConfig: {
+    bingApiKey: process.env.BINGAPI_KEY,
   },
 }

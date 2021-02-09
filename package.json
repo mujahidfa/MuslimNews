@@ -1,7 +1,8 @@
 {
-  "name": "muslimnews",
+  "name": "MuslimNews",
   "version": "1.0.0",
   "private": true,
+  "description": "MuslimNews is a news website gathering all Islam and Muslim related news articles from all around the world.",
   "scripts": {
     "dev": "nuxt",
     "build": "nuxt-ts build",
